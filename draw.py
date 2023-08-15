@@ -62,7 +62,7 @@ def draw_multipolygon(t, mpoly, fill='black', stroke='black', have_sprite=True):
         t.end_fill()
 
 def main():
-    polys, attrs, svg_size, viewbox = read_svg(seg_unit=8)
+    polys, attrs, svg_size, viewbox = read_svg()
     svg_w, svg_h = (viewbox[2]-viewbox[0], viewbox[3]-viewbox[1])
     svg_m = min(svg_w, svg_h)
     ar = svg_w/svg_h
