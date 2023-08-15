@@ -3,8 +3,8 @@ from math import ceil
 from svgpathtools import svg2paths2
 import numpy as np
 
-def read_svg(path, seg_unit):
-    paths, attrs, svg_attr = svg2paths2(path) # type: ignore
+def read_svg(path="input.svg", seg_unit=8):
+    paths, attrs, svg_attr = svg2paths2(path)
     svg_size = (float(svg_attr['width'].replace('px','')),
                 float(svg_attr['height'].replace('px','')) )
     viewbox = [float(f) for f in svg_attr['viewBox'].split(' ')]
@@ -61,8 +61,8 @@ def draw_multipolygon(t, mpoly, fill='black', stroke='black', have_sprite=True):
     if fill!="none":
         t.end_fill()
 
-def main_draw(svg_file, seg_unit=8):
-    polys, attrs, svg_size, viewbox = read_svg(svg_file, seg_unit=seg_unit)
+def main():
+    polys, attrs, svg_size, viewbox = read_svg(seg_unit=8)
     svg_w, svg_h = (viewbox[2]-viewbox[0], viewbox[3]-viewbox[1])
     svg_m = min(svg_w, svg_h)
     ar = svg_w/svg_h
@@ -81,13 +81,13 @@ def main_draw(svg_file, seg_unit=8):
     t.mode(mode='world')
     t.tracer(n=10, delay=0)
 
-    for poly, attr in zip(polys, attrs): # type: ignore
+    for poly, attr in zip(polys, attrs):
         if 'style' in attr.keys():
             attr.update({attrs.split(':')[0]:attrs.split(':')[1] for attrs in attr['style'].split(';')})
         if 'stroke' not in attr.keys():
             attr['stroke'] = attr['fill']
 
-        t.pen(outline=0.5*scale) # type: ignore
+        t.pen(outline=0.5*scale)
         if 'stroke-width' in attr.keys():
             t.pen(outline=float(attr['stroke-width'])*scale, pencolor= 'black') # type: ignore
 
@@ -104,11 +104,7 @@ def main_draw(svg_file, seg_unit=8):
     # t.done()
 
 
-
-
-
 if __name__ == '__main__':
-    svg_file = "in/luffy.svg"
-    main_draw(svg_file)
+    main()
 
 
